@@ -1,6 +1,5 @@
-# Scratch starter project
+# Scratch project
 
-To get started:
+netlify link for the project : https://mit-scratchh.netlify.app/
 
-- Run `npm i` to install dependencies
-- Run `npm start` and open http://localhost:3000 to see the app
+google drive screenshot of project:https://drive.google.com/drive/folders/1KwLn0OHQ8Mdyxpo0OyH8lSjak_ngBEFG
