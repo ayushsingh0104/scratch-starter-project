@@ -1,32 +1,45 @@
 import React from "react";
-import Icon from "./Icon";
+import { useDrag } from "react-dnd";
+
+const Block = ({ content, type }) => {
+  const [{ isDragging }, dragRef] = useDrag(() => ({
+    type: "BLOCK",
+    item: { content, type },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
+  return (
+    <div
+      ref={dragRef}
+      className={`px-3 py-1 rounded mb-2 cursor-move text-white ${
+        type === "event" ? "bg-yellow-500" : type === "looks" ? "bg-purple-500" : "bg-blue-500"
+      }`}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
+      {content.replaceAll("_", " ")}
+    </div>
+  );
+};
 
 export default function Sidebar() {
   return (
-    <div className="w-60 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200">
-      <div className="font-bold"> {"Events"} </div>
-      <div className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer">
-        {"When "}
-        <Icon name="flag" size={15} className="text-green-600 mx-2" />
-        {"clicked"}
-      </div>
-      <div className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer">
-        {"When this sprite clicked"}
-      </div>
-      <div className="font-bold"> {"Motion"} </div>
-      <div className="flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer">
-        {"Move 10 steps"}
-      </div>
-      <div className="flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer">
-        {"Turn "}
-        <Icon name="undo" size={15} className="text-white mx-2" />
-        {"15 degrees"}
-      </div>
-      <div className="flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer">
-        {"Turn "}
-        <Icon name="redo" size={15} className="text-white mx-2" />
-        {"15 degrees"}
-      </div>
+    <div className="w-60 p-4 bg-gray-100 border-r">
+      <h2 className="text-lg font-bold mb-2">Events</h2>
+      <Block content="when_flag_clicked" type="event" />
+      <Block content="when_sprite_clicked" type="event" />
+
+      <h2 className="text-lg font-bold mt-4 mb-2">Motion</h2>
+      <Block content="move_10_steps" type="motion" />
+      <Block content="turn_left_15" type="motion" />
+      <Block content="turn_right_15" type="motion" />
+      <Block content="go_to_xy" type="motion" />
+      <Block content="repeat" type="motion" />
+
+      <h2 className="text-lg font-bold mt-4 mb-2">Looks</h2>
+      <Block content="say_for_seconds" type="looks" />
+      <Block content="think_for_seconds" type="looks" />
     </div>
   );
 }

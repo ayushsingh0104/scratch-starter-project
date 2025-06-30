@@ -6,7 +6,6 @@ module.exports = {
     app: "./src/index.js",
   },
   output: {
-    // filename: "app.js",
     path: path.resolve(__dirname, "public"),
   },
   module: {
@@ -20,14 +19,7 @@ module.exports = {
             loader: "postcss-loader",
             options: {
               postcssOptions: {
-                plugins: [
-                  [
-                    "postcss-preset-env",
-                    {
-                      // Options
-                    },
-                  ],
-                ],
+                plugins: [["postcss-preset-env"]],
               },
             },
           },
@@ -35,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules\/(?!(react-dnd|react-dnd-html5-backend)\/).*/,
         use: {
           loader: "babel-loader",
           options: {
@@ -46,4 +38,11 @@ module.exports = {
     ],
   },
   plugins: [new MiniCssExtractPlugin()],
+  resolve: {
+    alias: {
+      react: path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+    },
+    extensions: ['.js', '.jsx'],
+  },
 };
